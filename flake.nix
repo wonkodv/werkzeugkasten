@@ -8,40 +8,95 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
+
+        deps = with pkgs; {
+            dev = [
+
+                bash-completion
+                colordiff
+                curl
+                direnv
+                file
+                git
+                gnumake
+                gnupg
+                neovim
+                neovim-remote
+                python3
+                python3Packages.pynvim
+                ripgrep
+                sqlite
+                universal-ctags
+                unixtools.xxd
+                unzip
+                wget
+
+                ];
+                python = dev ++ [
+                    python3Packages.black
+                    python3Packages.isort
+                    python3Packages.mypy
+                    python3Packages.pyls-flake8
+                    python3Packages.pyls-isort
+                    python3Packages.python-lsp-black
+                    python3Packages.python-lsp-server
+                ];
+                desktop = dev ++ python ++ [
+
+                    blueman
+                    calibre
+                    chromium
+                    evince
+                    feh
+                    firefox
+                    hplip
+                    inkscape
+                    keepassxc
+                    killall
+                    kitty
+                    libreoffice
+                    mpc-cli
+                    mpd
+                    mpd-mpris
+                    nextcloud-client
+                    numlockx
+                    paprefs
+                    pcsctools
+                    pinentry
+                    playerctl
+                    pstree
+                    rsync
+                    thunderbird
+                    typst
+                    xclip
+                    xournalpp
+                    xsane
+                    zbar
+
+                    ];
+        };
       in
       rec {
-        packages.default = packages.dev;
-
         packages.dev = pkgs.symlinkJoin {
-          # Package that only has dependencies
-          name = "werkzeugkiste";
-          paths = with pkgs; [
-
-            neovim
-            neovim-remote
-            ripgrep
-            universal-ctags
-            sqlite
-            python3
-            python3Packages.pynvim
-            git
-            gnumake
-            wget
-            gnupg
-            curl
-
-          ] ++ [ packages.initial-setup ];
+          name = "werkzeugkasten";
+          paths = deps.dev;
         };
 
-        packages.initial-setup = pkgs.writeShellScriptBin "öffne-werkzeug-kiste.sh" ''
-          mkdir -p ~/code ~/.config
-          cd ~/code
-          git clone https://github.com/bashconfig config
-          cd config
-          make install
-          cd ~/code/
-          git clone https://github.com/bashjump
-        '';
+        packages.python = pkgs.symlinkJoin {
+          name = "python-werkzeug";
+          paths = deps.python;
+        };
+
+        packages.desktop = pkgs.symlinkJoin {
+          name = "werkstatt";
+          paths = deps.desktop;
+        };
+
+
+        apps.populate-config-dirs = {
+            type = "app";
+            program = "${self}/populate-config-dirs.sh";
+        };
 
         formatter = pkgs.nixpkgs-fmt;
       }
