@@ -26,6 +26,7 @@
             git
             gnumake
             gnupg
+            nix # replace the old one shipped with the distro
             neovim
             neovim-remote
             nixfmt-rfc-style
