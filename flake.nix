@@ -4,14 +4,19 @@
     flake-utils.url = "github:numtide/flake-utils?ref=c1dfcf08411b08f6b8615f7d8971a2bfa81d5e8a";
     nixpkgs.url = "github:nixos/nixpkgs?ref=24.05";
   };
-  outputs = { self, nixpkgs, flake-utils }:
-    flake-utils.lib.eachDefaultSystem (system:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      flake-utils,
+    }:
+    flake-utils.lib.eachDefaultSystem (
+      system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
 
-        deps = with pkgs; {
+        deps = with pkgs; rec {
           dev = [
-
             bash-completion
             colordiff
             curl
@@ -22,6 +27,7 @@
             gnupg
             neovim
             neovim-remote
+            nixfmt-rfc-style
             python3
             python3Packages.pynvim
             ripgrep
@@ -30,7 +36,6 @@
             unixtools.xxd
             unzip
             wget
-
           ];
           python = dev ++ [
             python3Packages.black
@@ -41,39 +46,40 @@
             python3Packages.python-lsp-black
             python3Packages.python-lsp-server
           ];
-          desktop = dev ++ python ++ [
-
-            blueman
-            calibre
-            chromium
-            evince
-            feh
-            firefox
-            hplip
-            inkscape
-            keepassxc
-            killall
-            kitty
-            libreoffice
-            mpc-cli
-            mpd
-            mpd-mpris
-            nextcloud-client
-            numlockx
-            paprefs
-            pcsctools
-            pinentry
-            playerctl
-            pstree
-            rsync
-            thunderbird
-            typst
-            xclip
-            xournalpp
-            xsane
-            zbar
-
-          ];
+          desktop =
+            dev
+            ++ python
+            ++ [
+              blueman
+              calibre
+              chromium
+              evince
+              feh
+              firefox
+              hplip
+              inkscape
+              keepassxc
+              killall
+              kitty
+              libreoffice
+              mpc-cli
+              mpd
+              mpd-mpris
+              nextcloud-client
+              numlockx
+              paprefs
+              pcsctools
+              pinentry
+              playerctl
+              pstree
+              rsync
+              thunderbird
+              typst
+              xclip
+              xournalpp
+              xsane
+              zbar
+            ];
         };
       in
       rec {
@@ -92,14 +98,10 @@
           paths = deps.desktop;
         };
 
-
         apps.populate-config-dirs = {
           type = "app";
           program = "${self}/populate-config-dirs.sh";
         };
-
-        formatter = pkgs.nixpkgs-fmt;
       }
     );
-
 }
