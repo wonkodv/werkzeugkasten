@@ -10,70 +10,70 @@
         pkgs = nixpkgs.legacyPackages.${system};
 
         deps = with pkgs; {
-            dev = [
+          dev = [
 
-                bash-completion
-                colordiff
-                curl
-                direnv
-                file
-                git
-                gnumake
-                gnupg
-                neovim
-                neovim-remote
-                python3
-                python3Packages.pynvim
-                ripgrep
-                sqlite
-                universal-ctags
-                unixtools.xxd
-                unzip
-                wget
+            bash-completion
+            colordiff
+            curl
+            direnv
+            file
+            git
+            gnumake
+            gnupg
+            neovim
+            neovim-remote
+            python3
+            python3Packages.pynvim
+            ripgrep
+            sqlite
+            universal-ctags
+            unixtools.xxd
+            unzip
+            wget
 
-                ];
-                python = dev ++ [
-                    python3Packages.black
-                    python3Packages.isort
-                    python3Packages.mypy
-                    python3Packages.pyls-flake8
-                    python3Packages.pyls-isort
-                    python3Packages.python-lsp-black
-                    python3Packages.python-lsp-server
-                ];
-                desktop = dev ++ python ++ [
+          ];
+          python = dev ++ [
+            python3Packages.black
+            python3Packages.isort
+            python3Packages.mypy
+            python3Packages.pyls-flake8
+            python3Packages.pyls-isort
+            python3Packages.python-lsp-black
+            python3Packages.python-lsp-server
+          ];
+          desktop = dev ++ python ++ [
 
-                    blueman
-                    calibre
-                    chromium
-                    evince
-                    feh
-                    firefox
-                    hplip
-                    inkscape
-                    keepassxc
-                    killall
-                    kitty
-                    libreoffice
-                    mpc-cli
-                    mpd
-                    mpd-mpris
-                    nextcloud-client
-                    numlockx
-                    paprefs
-                    pcsctools
-                    pinentry
-                    playerctl
-                    pstree
-                    rsync
-                    thunderbird
-                    typst
-                    xclip
-                    xournalpp
-                    xsane
-                    zbar
+            blueman
+            calibre
+            chromium
+            evince
+            feh
+            firefox
+            hplip
+            inkscape
+            keepassxc
+            killall
+            kitty
+            libreoffice
+            mpc-cli
+            mpd
+            mpd-mpris
+            nextcloud-client
+            numlockx
+            paprefs
+            pcsctools
+            pinentry
+            playerctl
+            pstree
+            rsync
+            thunderbird
+            typst
+            xclip
+            xournalpp
+            xsane
+            zbar
 
-                    ];
+          ];
         };
       in
       rec {
@@ -94,8 +94,8 @@
 
 
         apps.populate-config-dirs = {
-            type = "app";
-            program = "${self}/populate-config-dirs.sh";
+          type = "app";
+          program = "${self}/populate-config-dirs.sh";
         };
 
         formatter = pkgs.nixpkgs-fmt;
