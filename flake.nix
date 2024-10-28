@@ -22,6 +22,7 @@
             curl
             direnv
             file
+            pstree
             git
             gnumake
             gnupg
