@@ -11,6 +11,8 @@ Install
 
 
 ```bash
-nix --experimental-features "nix-command flakes" profile install github:wonkodv/werkzeugkasten/#dev
-nix --experimental-features "nix-command flakes" run github:wonkodv/werkzeugkasten/#populate-config-dirs
+$ sh <(curl -L https://nixos.org/nix/install) --daemon
+mkdir ~/code
+git clone https://github.com/wonkodv/werkzeugkasten ~/code/werkzeugkasten
+~/code/werkzeugkasten/install.sh
 ```
